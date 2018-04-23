@@ -3,9 +3,9 @@ Demo link
 https://www.saeed3e.com/photo
 
 ## Login credential 
- Photo Gallery demo
-    Username: saeed3e@gmail.com
-    Password: koko
+ - Photo Gallery demo
+   -  Username: saeed3e@gmail.com
+   -  Password: koko
 	
 ## Features added		
 * Create web layout as per design.

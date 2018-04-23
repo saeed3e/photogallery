@@ -89,7 +89,7 @@ module.exports = {
     },
     plugins: [
         extractSass,
-        new CleanWebpackPlugin(['dist']),
+        // new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
             title: 'Photo Gallery app',
             template: "./src/index.html",

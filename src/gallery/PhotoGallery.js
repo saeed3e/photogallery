@@ -9,22 +9,22 @@ import lozad from "lozad";
  * While animation only composite layer will impact
  * Ref: https://github.com/googlearchive/flipjs
  */
-import "./lib/flip.js";
+import "./../lib/flip.js";
 
 /**
  * Open Source library: To enable swipe functionality on touce devices
  * Ref: https://github.com/thebird/Swipe
  */
-import { Swipe } from "./lib/swipe-Vanilla.js";
+import { Swipe } from "./../lib/swipe-Vanilla.js";
 
 // Import all icons required in application
-import * as icons from "./icons.js";
+import * as icons from "./../icons/icons.js";
 
 // Load images from given context
-const images = require.context("./images");
+const images = require.context("./../images");
 
 // Import style for photo gallery component
-import "./style/style.scss";
+import "./../style/style.scss";
 
 // To store carousel plugni Instance
 let carouselInstance = null;

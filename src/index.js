@@ -1,8 +1,8 @@
 //Load photo Gallery component
-import PhotoGallery from "./PhotoGallery.js";
+import PhotoGallery from "./gallery/PhotoGallery.js";
 
 // Load images data array
-import { imageUrlpaths } from "./imagesPath.js";
+import { imageUrlpaths } from "./data/imagesPath.js";
 
 // Initialize photoGallery
 new PhotoGallery({

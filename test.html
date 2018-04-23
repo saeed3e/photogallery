@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./src/lib/flip.js"></script>
+    <style>
+        body{
+            margin: 0;
+            position: relative;
+            padding: 10px;
+        }
+        
+
+        .anim{
+            padding: 30px;
+            background-color: antiquewhite;
+            border: red;
+            width: 300px;;
+        }
+        .animate-on-transforms{
+            transition: all 1s ease-in-out
+        }
+
+        .lastPosition{
+            top: 230px;
+            position: absolute
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="anim" id="anim">Hi</div>
+
+
+    <script>
+        var el = document.getElementById('anim')
+        // var first = el.getBoundingClientRect();
+
+        // // // Move it to the end.
+        // el.classList.add('lastPosition');
+
+        // // // Get the last position.
+        // var last = el.getBoundingClientRect();
+
+        //     console.log(first.top, last.top)
+
+        // // Invert.
+        // var invert =   first.top - last.top ;
+
+        // // el.classList.add('animate-on-transforms');        
+        // // Invert.
+        // el.style.transform = `translateY(${invert}px)`;
+        
+        
+        // requestAnimationFrame(function() {
+
+        // // Switch on animations.
+        // el.classList.add('animate-on-transforms');
+
+        // // GO GO GOOOOOO!
+        // el.style.transform = '';
+        // });
+
+
+        
+        window.flip = new FLIP({
+            element: el,
+            duration: 1000
+        });
+
+        // First position & opacity.
+        flip.first();
+
+        // Apply the 'end' class and snapshot the last position & opacity.
+        flip.last('lastPosition');
+
+        // Move and fade the element back to the original position.
+        flip.invert();
+
+        // flip.play();
+
+        </script>
+</body>
+</html>

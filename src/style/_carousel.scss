@@ -1,0 +1,12 @@
+/* image carousel style*/
+.swipe {
+  overflow: hidden;
+  visibility: hidden;
+  position: relative;
+  height: calc(100% - 140px);
+}
+.swipe-wrap {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}

@@ -33,7 +33,7 @@ https://www.saeed3e.com/photo
 
 ## Simulation mode testing:
     On slow 3g, fast 3g and wifi connection.
-    Enable CPU throttling by 4x, 6x
+    With enabled CPU throttling by 4x, 6x
 
 ## Third party library used 
     Lozad

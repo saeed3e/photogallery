@@ -4,14 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const extractSass = new ExtractTextPlugin({
-    filename: "style.css",
+    filename: "style_v1.css",
     disable: process.env.NODE_ENV === "development"
 });
 
 module.exports = {
   entry: {
-    app: './src/index.js',
-    vendor: ['lozad', './src/lib/flip.js','./src/lib/swipe-Vanilla.js']
+    app_v1: './src/index.js',
+    vendor_v1: ['lozad', './src/lib/flip.js','./src/lib/swipe-Vanilla.js']
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -21,7 +21,7 @@ module.exports = {
     splitChunks: {
         cacheGroups: {
             commons: {
-                name: "vendor",
+                name: "vendor_v1",
                 chunks: "initial",
                 minChunks: 2
             }
@@ -89,7 +89,7 @@ module.exports = {
     },
     plugins: [
         extractSass,
-        // new CleanWebpackPlugin(['dist']),
+        new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
             title: 'Photo Gallery app',
             template: "./src/index.html",

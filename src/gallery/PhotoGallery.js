@@ -29,6 +29,9 @@ import "./../style/style.scss";
 // To store carousel plugni Instance
 let carouselInstance = null;
 
+// lozad object instance
+let observer = null;
+
 export default class PhotoGallery {
   constructor({ data }) {
     // define variable
@@ -39,6 +42,9 @@ export default class PhotoGallery {
   }
 
   init = () => {
+    // load placeholder image
+    this.loadPlacholderImage();
+
     // Create image grid
     this.createImageGrid();
 
@@ -60,6 +66,34 @@ export default class PhotoGallery {
     });
   };
 
+  /**
+   * Attached event listner on prev and next button to enable image slide functionality on non-touch devices, like desktop
+   */
+  prevNext_button_handler = () => {
+    const nextPrevTag = document.querySelector(".nextPrev");
+    if (nextPrevTag) {
+      //Keyboard left and right key binding 
+      document.onkeydown = function(e) {
+        switch (e.keyCode) {
+          case 37: // left key code
+            carouselInstance.prev();
+            break;
+          case 39: // right key code
+            carouselInstance.next();
+            break;
+        }
+      };
+      //Attached an event listner on button having class .prev
+      nextPrevTag.querySelector(".prev").addEventListener("click", () => {
+        carouselInstance.prev();
+      });
+      //Attached an event listner on button having class .next
+      nextPrevTag.querySelector(".next").addEventListener("click", () => {
+        carouselInstance.next();
+      });
+    }
+  };
+
   bindEvent = () => {
     // Get the imageViewer root node
     const elem = document.querySelector("#imageCont");
@@ -71,15 +105,7 @@ export default class PhotoGallery {
     });
 
     //Attached event listner on prev and next button to enable image slide functionality on non-touch devices, like desktop
-    const nextPrevTag = document.querySelector('.nextPrev');
-    if(nextPrevTag){
-        nextPrevTag.querySelector('.prev').addEventListener('click',()=>{
-            carouselInstance.prev();
-        });
-        nextPrevTag.querySelector('.next').addEventListener('click',()=>{
-            carouselInstance.next();
-        })
-    }
+    this.prevNext_button_handler()
 
     // Attached a single click handler on parnet of images grid layout
     // to listen click event on image tag by vanialla(core) javascript event delegation concepts
@@ -132,13 +158,14 @@ export default class PhotoGallery {
   /**
    * Create image template with added lazy loaded attributes (class="lozad", data-src="image path")
    */
-  createImage = ({ path, alt = "", index }) => {
-    const {mobile,  desktop} = path;
+  createImage = ({ path, alt = "", index, _class }) => {
+    const { mobile, desktop } = path;
 
     const mobileSrc = images("./" + mobile);
     const desktopSrc = images("./" + desktop);
 
-    return `<img class="lozad" data-src="${mobileSrc}" data-srcset="${desktopSrc} 1024w, ${mobileSrc} 680w" index="${index}" alt="${alt}" src="${
+    return `<img class=${"lozad " +
+      _class} data-src="${mobileSrc}" data-srcset="${desktopSrc} 1024w, ${mobileSrc} 680w" index="${index}" alt="${alt}" src="${
       icons.loader
     }"/>`;
   };
@@ -149,7 +176,12 @@ export default class PhotoGallery {
   imageSlider = ({ path, alt, index }) => {
     const _images = this.imagePaths.map((val, index) => {
       return `<div class="imgWrap">
-                  ${this.createImage({ path: val, index, alt })}
+                  ${this.createImage({
+                    path: val,
+                    index,
+                    alt,
+                    _class: "detailView"
+                  })}
               </div>`;
     });
     return `<div id="mySwipe" class='swipe'>
@@ -257,25 +289,22 @@ export default class PhotoGallery {
   };
 
   /**
+   * load placeholder image and after start lazy laoding of images
+   */
+  loadPlacholderImage = ()=>{
+    const img = new Image();
+    img.src = icons.loader
+    img.onload = ()=>{
+        //Start observering to lazy load images
+        observer.observe();
+    }
+  }
+
+  /**
    * this function is to initialize image lazy laoding furntionality by "lozad" funtion
    */
   initImageLazyloading = () => {
     //Open source plugin to enabled image lazy loading feature.
-
-    const observer = lozad(".lozad", {
-      // lazy loads elements with default selector as '.lozad'
-
-      loaded: function(el) {
-        // This function envoke for each loaded image
-
-        //Set the image width and height dimention to 100%, for better visibility of images inside grid system layout
-        if (!el.classList.contains("icon")) {
-          el.style.width = "100%";
-          el.style.height = "100%";
-        }
-      }
-    });
-    //Start observering
-    observer.observe();
+    observer = lozad(".lozad");
   };
 }

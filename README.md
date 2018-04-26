@@ -10,12 +10,6 @@ https://www.saeed3e.com/photo
 ## Features added		
 * Create web layout as per design.
 * Using CSS3 Grid layout feature to create responsive photo gallery.
-    - 1 column for device range below 320 view port width
-    - 2 column for device range below 460 view port width
-    - 3 column for device range below 620 view port width
-    - 4 column for laptop devices or view port greater than 1024
-    - iPad (786x1024): 2 column
-    - iPad Pro (1024 x 1366): 3 column
 * Lazy loading of images which is out of first fold by using Intersectionobserver API.
 * Achieve 60 FPS, while transitioning from image grid view to detail view by only use of those CSS3 property(transform and opacity) which impact only on composite layer.
 * Added smooth sliding effect so that user can swap left and right to see the next image.

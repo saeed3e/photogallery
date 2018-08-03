@@ -1,6 +1,6 @@
 ## Photo Gallery
 Demo link
-https://www.saeed3e.com/photo
+https://saeed3e.github.io/photogallery/
 
 ## Login credential 
  - Photo Gallery demo

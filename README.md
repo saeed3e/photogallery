@@ -2,11 +2,6 @@
 Demo link
 https://saeed3e.github.io/photogallery/
 
-## Login credential 
- - Photo Gallery demo
-   -  Username: saeed3e@gmail.com
-   -  Password: koko
-	
 ## Features added		
 * Create web layout as per design.
 * Using CSS3 Grid layout feature to create responsive photo gallery.

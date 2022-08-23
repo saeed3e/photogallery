@@ -8,3 +8,8 @@ import { imageUrlpaths } from "./data/imagesPath.js";
 new PhotoGallery({
   data: imageUrlpaths
 });
+
+// const rootElem = document.createElement('div');
+// rootElem.id = "root"
+// document.body.appendChild(rootElem);
+// ReactDOM.render(document.createElement('h1'), document.getElementById("root"));

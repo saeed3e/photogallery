@@ -1,98 +1,74 @@
 const path = require('path');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const extractSass = new ExtractTextPlugin({
-    filename: "style_v1.css",
-    disable: process.env.NODE_ENV === "development"
-});
+const isProduction = process.env.npm_lifecycle_event.includes('build')
 
 module.exports = {
   entry: {
-    app_v1: './src/index.js',
-    vendor_v1: ['lozad', './src/lib/flip.js','./src/lib/swipe-Vanilla.js']
+    app: './src/index.js'
   },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    path: path.resolve(__dirname, 'public'),
+    filename: isProduction ? 'js/[name].[contenthash].js' : '[name].js',
+    clean: true,
+    assetModuleFilename: 'images/[hash][ext][query]'
   },
-  optimization:{
-    splitChunks: {
-        cacheGroups: {
-            commons: {
-                name: "vendor_v1",
-                chunks: "initial",
-                minChunks: 2
-            }
-        }
-    }
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "dist"),
-    compress: true,
-    port: 9000
-  },
-  mode:'development',
+  mode: isProduction ? 'production' : 'development',
+  devtool: isProduction ? 'source-map' : 'inline-source-map',
   module: {
-        rules: [{
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: "babel-loader"
-      },{
-            test: /\.scss$/,
-            use: extractSass.extract({
-                use: [{
-                    loader: "css-loader"
-                }, {
-                    loader: "sass-loader"
-                }],
-                // use style-loader in development
-                fallback: "style-loader"
-            })
-        },
-        {
-              test: /\.(png|svg|jpe?g|gif)$/,
-              use: [{
-                loader:'file-loader',
-
-                options:{
-                    name: '[name].[ext]',
-                    outputPath: 'images/',
-                    loader: 'image-webpack-loader',
-                    options: {
-                      mozjpeg: {
-                        progressive: true,
-                        quality: 65
-                      },
-                      // optipng.enabled: false will disable optipng
-                      optipng: {
-                        enabled: true,
-                        optimizationLevel:7
-                      },
-                      pngquant: {
-                        quality: '65-90',
-                        speed: 4
-                      },
-                      gifsicle: {
-                        interlaced: false,
-                      },
-                      // the webp option will enable WEBP
-                      webp: {
-                        quality: 75
-                      }
-                    }
-                  },
-              }]
-        },
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      },
+      {
+        test: /\.(sa|sc|c)ss$/i,
+        use: [
+          MiniCssExtractPlugin.loader,
+          // Translates CSS into CommonJS
+          {
+            loader: "css-loader"
+          },
+          // Compiles Sass to CSS
+          {
+            loader: "sass-loader"
+          }
         ]
-    },
-    plugins: [
-        extractSass,
-        new CleanWebpackPlugin(['dist']),
-        new HtmlWebpackPlugin({
-            title: 'Photo Gallery app',
-            template: "./src/index.html",
-        })
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource'
+      }
     ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Photo Gallery app',
+      filename: isProduction ? '../index.html' : 'index.html'
+    }),
+    new MiniCssExtractPlugin({
+      filename: isProduction ? "css/[name].[contenthash].css" : "[name].css"
+    })
+  ],
+  optimization: {
+    moduleIds: 'deterministic',
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]|src[\\/]lib/,
+          name: 'vendors',
+          chunks: 'all',
+          enforce: true
+        },
+      },
+    }
+  }
 };
